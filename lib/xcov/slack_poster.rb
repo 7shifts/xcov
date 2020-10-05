@@ -28,8 +28,9 @@ module Xcov
       end
 
       begin
-        # message = report.coverage
-        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
+        puts "🚨🚨🚨 Please print this 🚨🚨🚨"
+        puts report.coverage
+        message = Slack::Notifier::Util::LinkFormatter.format(report.coverage)
         results = notifier.ping(
           message,
           icon_url: 'https://s3-eu-west-1.amazonaws.com/fastlane.tools/fastlane.png',
