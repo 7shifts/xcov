@@ -25,16 +25,15 @@ module Xcov
           color: target.coverage_color,
           short: true
         }
-      puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
-      # puts "#{report.average_coverage}"
-      puts "#{report.displayable_coverage}"
-      puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
-      puts report.coverage
       end
 
       begin
-        message = "Current Coverages *#{report.displayable_coverage}*"
-        # message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
+        
+        
+        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
+        if Xcov.config[:skip_slack]:slack_percent_coverage]
+          message += "\nCurrent Coverage *#{report.displayable_coverage}*"
+        end
         results = notifier.ping(
           message,
           icon_url: 'https://s3-eu-west-1.amazonaws.com/fastlane.tools/fastlane.png',
