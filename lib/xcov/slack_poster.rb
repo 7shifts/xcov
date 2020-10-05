@@ -25,11 +25,14 @@ module Xcov
           color: target.coverage_color,
           short: true
         }
+      puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
+      puts "#{report.average_coverage}"
+      puts "#{report.coverage}"
+      puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
       end
 
       begin
-        puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
-        puts report.average_coverage
+        
         message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
         results = notifier.ping(
           message,
