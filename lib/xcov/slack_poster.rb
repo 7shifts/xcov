@@ -33,7 +33,7 @@ module Xcov
       end
 
       begin
-        message = "Current Coverages *#{report.average_coverage}*"
+        message = "Current Coverages *#{report.displayable_coverage}*"
         # message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
         results = notifier.ping(
           message,
