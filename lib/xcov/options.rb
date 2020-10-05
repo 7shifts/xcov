@@ -172,12 +172,12 @@ module Xcov
           default_value: "Your *xcov* coverage report",
           optional: true
         ),
-        FastlaneCore::ConfigItem.new{
+        FastlaneCore::ConfigItem.new(
           key: :slack_percent_coverage,
           description: "Append coverage percentage to slack message",
           is_string: false,
           default_value: false
-        },
+        ),
 
         # Exclusion options
         FastlaneCore::ConfigItem.new(
