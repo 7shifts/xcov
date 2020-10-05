@@ -27,7 +27,7 @@ module Xcov
         }
       puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
       # puts "#{report.average_coverage}"
-      puts "#{report.coverage}"
+      puts "#{report.displayable_coverage}"
       puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
       puts report.coverage
       end
