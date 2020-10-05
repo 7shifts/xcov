@@ -31,7 +31,7 @@ module Xcov
         
         
         message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
-        if Xcov.config[:skip_slack]:slack_percent_coverage]
+        if Xcov.config[:slack_percent_coverage]
           message += "\nCurrent Coverage *#{report.displayable_coverage}*"
         end
         results = notifier.ping(
