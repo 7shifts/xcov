@@ -28,7 +28,7 @@ module Xcov
       end
 
       begin
-        message = report.displayable_coverage
+        message = report.coverage
         # message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
         results = notifier.ping(
           message,
