@@ -29,7 +29,7 @@ module Xcov
 
       begin
         puts "🚨🚨🚨🚨 Does this happen 🚨🚨🚨🚨"
-        puts report.average_coverage
+        # puts report.average_coverage
         message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
         results = notifier.ping(
           message,
