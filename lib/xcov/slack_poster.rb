@@ -76,7 +76,7 @@ module Xcov
         else
           message + "🔴"
         end
-        message +== "Goal: *#{displayable_progress}* complete/n"
+        message += "Goal: *#{displayable_progress}* complete/n"
         return message
 
       end
@@ -85,9 +85,8 @@ module Xcov
       end
 
       begin
-        
-        if append_message
-        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message])
+      
+        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message]) + "\n"+ append_message
         if Xcov.config[:slack_target_coverage_base]
           coverage = 
           message += "\nCurrent Coverage *#{report.displayable_coverage}*"
