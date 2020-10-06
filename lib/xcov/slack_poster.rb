@@ -4,34 +4,36 @@ module Xcov
     def create_displayable_percent(percent)
       "%.2f%%" % [(percent)]
     end
-    def create_displayable_progress_report(progress_percent, base_coverage, target)
-      displayable_progress = create_displayable_percent(progress_percent)
-      displayable_base = create_displayable_percent(base_coverage)
-      displayable_target = create_displayable_percent(target)
 
-      message = "Current Coverage: *#{displayable_progress}*\n"
+    def create_displayable_progress_report(progress_percent, current_coverage, target_coverage)
+      displayable_progress = create_displayable_percent(progress_percent)
+      displayable_current = create_displayable_percent(current_coverage)
+      displayable_target = create_displayable_percent(target_coverage)
+
+      message = "Current Coverage: *#{displayable_current}*\n"
       message += "Target Coverage: *#{displayable_target}*\n"
       
-
       if progress_percent >= 100
-        message += "🟢"
+        message += ":white_check_mark:"
       elsif progress_percent > 75
-        message += "🟡"
+        message += ":warning:"
       elsif progress_percent > 50
-        message += "🟠"
+        message += ":no_entry_sign:"
       else
-        message + "🔴"
+        message + ":skull:"
       end
-      message += "Goal: *#{displayable_progress}* complete/n"
+      message += " Goal: *#{displayable_progress}* complete\n"
       return message
 
     end
+
     def calculate_percent_progress(current, base_coverage, target)
       target_percent = target - base_coverage
       progress = current - base_coverage
       progress_percent = (progress/target_percent * 100)
       return progress_percent
     end
+
     def create_displayable_target(current_coverage)
       if !Xcov.config[:slack_target_coverage]
         return ""
@@ -46,11 +48,12 @@ module Xcov
       )
       return create_displayable_progress_report(
         progress_percent,
-        base_target_coverage,
+        current_coverage,
         target_coverage
       )
 
     end
+    
     def run(report)
       return if Xcov.config[:skip_slack]
       return if Xcov.config[:slack_url].to_s.empty?
