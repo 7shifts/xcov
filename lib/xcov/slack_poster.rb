@@ -4,6 +4,9 @@ module Xcov
     def create_displayable_percent(percent)
       "%.2f%%" % [(percent)]
     end
+    def create_displayable_progress_percent(percent)
+      "%.1f%%" % [(percent)]
+    end
 
     def create_progress_emoji(progress)
       if progress >= 100.0
@@ -18,12 +21,12 @@ module Xcov
     end
 
     def create_displayable_progress_report(progress_percent, current_coverage, target_coverage)
-      displayable_progress = create_displayable_percent(progress_percent)
+      displayable_progress = create_displayable_progress_percent(progress_percent)
       displayable_current = create_displayable_percent(current_coverage)
       displayable_target = create_displayable_percent(target_coverage)
 
       message = "Current Coverage: *#{displayable_current}*\n"
-      message += "Target Coverage: :skull: *#{displayable_target}*\n"
+      message += "Target Coverage: *#{displayable_target}*\n"
       
       emoji = create_progress_emoji(progress_percent)
      
@@ -82,18 +85,8 @@ module Xcov
           color: target.coverage_color,
           short: true
         }
-
-        # if Xcov.config[:slack_target_coverage]
-        #   current_coverage = (report.coverage * 100)
-        #   append_message = create_displayable_target(current_coverage)
-        # end
-
       end
-
       
-       
-     
-
       begin
         if Xcov.config[:slack_target_coverage]
           current_coverage = (report.coverage * 100)
