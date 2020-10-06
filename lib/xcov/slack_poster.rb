@@ -75,10 +75,10 @@ module Xcov
           short: true
         }
 
-        if Xcov.config[:slack_target_coverage]
-          current_coverage = (report.coverage * 100)
-          append_message = create_displayable_target(current_coverage)
-        end
+        # if Xcov.config[:slack_target_coverage]
+        #   current_coverage = (report.coverage * 100)
+        #   append_message = create_displayable_target(current_coverage)
+        # end
 
       end
 
@@ -87,12 +87,12 @@ module Xcov
      
 
       begin
-      
-        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message]) + "\n"+ append_message
-        if Xcov.config[:slack_target_coverage_base]
-          coverage = 
-          message += "\nCurrent Coverage *#{report.displayable_coverage}*"
+        if Xcov.config[:slack_target_coverage]
+          current_coverage = (report.coverage * 100)
+          append_message = create_displayable_target(current_coverage)
         end
+        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message]) + "\n"+ append_message
+        
         results = notifier.ping(
           message,
           icon_url: 'https://s3-eu-west-1.amazonaws.com/fastlane.tools/fastlane.png',
