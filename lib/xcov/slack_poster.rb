@@ -1,7 +1,26 @@
 
 module Xcov
   class SlackPoster
+  def create_displayable_target
+      if !Xcov.config[:slack_target_coverage]
+        return ""
+      end
+      current_coverage = (report.coverage * 100)
+      base_target_coverage = Xcov.config[:slack_target_coverage_base]
+      target_coverage = Xcov.config[:slack_target_coverage]
+      
+      progress_percent = calculate_percent_progress(
+        current_coverage,
+        base_target_coverage,
+        target_coverage
+      )
+      return create_displayable_progress_report(
+        progress_percent,
+        base_target_coverage,
+        target_coverage
+      )
 
+    end
     def run(report)
       return if Xcov.config[:skip_slack]
       return if Xcov.config[:slack_url].to_s.empty?
@@ -32,26 +51,7 @@ module Xcov
 
       end
 
-      def create_displayable_target
-        if !Xcov.config[:slack_target_coverage]
-          return ""
-        end
-        current_coverage = (report.coverage * 100)
-        base_target_coverage = Xcov.config[:slack_target_coverage_base]
-        target_coverage = Xcov.config[:slack_target_coverage]
-        
-        progress_percent = calculate_percent_progress(
-          current_coverage,
-          base_target_coverage,
-          target_coverage
-        )
-        return create_displayable_progress_report(
-          progress_percent,
-          base_target_coverage,
-          target_coverage
-        )
-
-      end
+      
       def calculate_percent_progress(current, base, target)
         target_percent = target - base
         progress = current - base
