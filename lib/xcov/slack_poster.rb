@@ -11,13 +11,13 @@ module Xcov
       displayable_target = create_displayable_percent(target_coverage)
 
       message = "Current Coverage: *#{displayable_current}*\n"
-      message += "Target Coverage: *#{displayable_target}*\n"
+      message += "Target Coverage: :skull: *#{displayable_target}*\n"
       
-      if progress_percent >= 100
+      if progress_percent >= 100.0
         message += ":white_check_mark:"
-      elsif progress_percent > 75
+      elsif progress_percent > 75.0
         message += ":warning:"
-      elsif progress_percent > 50
+      elsif progress_percent > 50.0
         message += ":no_entry_sign:"
       else
         message + ":skull:"
@@ -53,7 +53,7 @@ module Xcov
       )
 
     end
-    
+
     def run(report)
       return if Xcov.config[:skip_slack]
       return if Xcov.config[:slack_url].to_s.empty?
@@ -94,7 +94,7 @@ module Xcov
           current_coverage = (report.coverage * 100)
           append_message = create_displayable_target(current_coverage)
         end
-        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message]) + "\n"+ append_message
+        message = Slack::Notifier::Util::LinkFormatter.format(Xcov.config[:slack_message]+"\n"+ append_message)
         
         results = notifier.ping(
           message,
