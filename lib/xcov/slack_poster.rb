@@ -5,6 +5,18 @@ module Xcov
       "%.2f%%" % [(percent)]
     end
 
+    def create_progress_emoji(progress)
+      if progress >= 100.0
+        return ":white_check_mark:"
+      elsif progress > 75.0
+        return ":warning:"
+      elsif progress > 50.0
+        return ":no_entry_sign:"
+      else
+        return ":skull:"
+      end
+    end
+
     def create_displayable_progress_report(progress_percent, current_coverage, target_coverage)
       displayable_progress = create_displayable_percent(progress_percent)
       displayable_current = create_displayable_percent(current_coverage)
@@ -13,16 +25,9 @@ module Xcov
       message = "Current Coverage: *#{displayable_current}*\n"
       message += "Target Coverage: :skull: *#{displayable_target}*\n"
       
-      if progress_percent >= 100.0
-        message += ":white_check_mark:"
-      elsif progress_percent > 75.0
-        message += ":warning:"
-      elsif progress_percent > 50.0
-        message += ":no_entry_sign:"
-      else
-        message + ":skull:"
-      end
-      message += " Goal: *#{displayable_progress}* complete\n"
+      emoji = create_progress_emoji(progress_percent)
+     
+      message += "Goal: *#{displayable_progress}* complete | #{emoji}\n"
       return message
 
     end
