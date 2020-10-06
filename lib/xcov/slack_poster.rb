@@ -4,9 +4,9 @@ module Xcov
     def create_displayable_percent(percent)
       "%.2f%%" % [(percent)]
     end
-    def create_displayable_progress_report(progress_percent, base, target)
+    def create_displayable_progress_report(progress_percent, base_coverage, target)
       displayable_progress = create_displayable_percent(progress_percent)
-      displayable_base = create_displayable_percent(self.base)
+      displayable_base = create_displayable_percent(base_coverage)
       displayable_target = create_displayable_percent(target)
 
       message = "Current Coverage: *#{displayable_progress}*\n"
@@ -26,9 +26,9 @@ module Xcov
       return message
 
     end
-    def calculate_percent_progress(current, base, target)
-      target_percent = target - base
-      progress = current - base
+    def calculate_percent_progress(current, base_coverage, target)
+      target_percent = target - base_coverage
+      progress = current - base_coverage
       progress_percent = (progress/target_percent * 100)
       return progress_percent
     end
