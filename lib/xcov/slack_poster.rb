@@ -1,7 +1,38 @@
 
 module Xcov
   class SlackPoster
-  def create_displayable_target(current_coverage)
+    def create_displayable_percent(percent)
+      "%.2f%%" % [(percent)]
+    end
+    def create_displayable_progress_report(progress_percent, base, target)
+      displayable_progress = create_displayable_percent(progress_percent)
+      displayable_base = create_displayable_percent(self.base)
+      displayable_target = create_displayable_percent(target)
+
+      message = "Current Coverage: *#{displayable_progress}*\n"
+      message += "Target Coverage: *#{displayable_target}*\n"
+      
+
+      if progress_percent >= 100
+        message += "🟢"
+      elsif progress_percent > 75
+        message += "🟡"
+      elsif progress_percent > 50
+        message += "🟠"
+      else
+        message + "🔴"
+      end
+      message += "Goal: *#{displayable_progress}* complete/n"
+      return message
+
+    end
+    def calculate_percent_progress(current, base, target)
+      target_percent = target - base
+      progress = current - base
+      progress_percent = (progress/target_percent * 100)
+      return progress_percent
+    end
+    def create_displayable_target(current_coverage)
       if !Xcov.config[:slack_target_coverage]
         return ""
       end
@@ -52,37 +83,8 @@ module Xcov
       end
 
       
-      def calculate_percent_progress(current, base, target)
-        target_percent = target - base
-        progress = current - base
-        progress_percent = (progress/target_percent * 100)
-        return progress_percent
-      end
-      def create_displayable_progress_report(progress_percent, base, target)
-        displayable_progress = create_displayable_percent(progress_percent)
-        displayable_base = create_displayable_percent(self.base)
-        displayable_target = create_displayable_percent(target)
-
-        message = "Current Coverage: *#{displayable_progress}*\n"
-        message += "Target Coverage: *#{displayable_target}*\n"
-        
-
-        if progress_percent >= 100
-          message += "🟢"
-        elsif progress_percent > 75
-          message += "🟡"
-        elsif progress_percent > 50
-          message += "🟠"
-        else
-          message + "🔴"
-        end
-        message += "Goal: *#{displayable_progress}* complete/n"
-        return message
-
-      end
-      def create_displayable_percent(percent)
-        "%.2f%%" % [(percent)]
-      end
+       
+     
 
       begin
       
