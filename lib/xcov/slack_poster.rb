@@ -1,11 +1,10 @@
 
 module Xcov
   class SlackPoster
-  def create_displayable_target
+  def create_displayable_target(current_coverage)
       if !Xcov.config[:slack_target_coverage]
         return ""
       end
-      current_coverage = (report.coverage * 100)
       base_target_coverage = Xcov.config[:slack_target_coverage_base]
       target_coverage = Xcov.config[:slack_target_coverage]
       
@@ -46,7 +45,8 @@ module Xcov
         }
 
         if Xcov.config[:slack_target_coverage]
-          append_message = create_displayable_target
+          current_coverage = (report.coverage * 100)
+          append_message = create_displayable_target(current_coverage)
         end
 
       end
