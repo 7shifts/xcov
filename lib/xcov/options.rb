@@ -173,10 +173,17 @@ module Xcov
           optional: true
         ),
         FastlaneCore::ConfigItem.new(
-          key: :slack_percent_coverage,
-          description: "Append coverage percentage to slack message",
-          is_string: false,
-          default_value: false
+          key: :slack_target_coverage,
+          description: "Overall coverage target (%)",
+          type: Float,
+          optional: true
+        ),
+        FastlaneCore::ConfigItem.new(
+          key: :slack_target_coverage_base,
+          description: "Starting value for coverage target",
+          type: Float,
+          default_value: 0,
+          optional: true
         ),
 
         # Exclusion options
